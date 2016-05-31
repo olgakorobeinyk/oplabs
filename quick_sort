@@ -1,0 +1,111 @@
+#include <iostream>
+using namespace std;
+
+
+
+void quicksort(int array[], int first, int last) 
+{
+	// return if only one number in array
+	if (last - first < 2) 
+		return;
+	
+	// find pivot value as median from three (first, middle and last numbers in the array)
+	int lnum = array[first];
+	int rnum = array[last];
+	int midnum = array[(last - first) / 2 + first];
+	int pivot = lnum;
+	if (lnum <= midnum && midnum <= rnum || rnum <= midnum && midnum <= lnum)
+		pivot = midnum;
+	else if (midnum <= rnum && rnum <= lnum || lnum <= rnum && rnum <= midnum)
+		pivot = rnum;
+
+	// sort the array
+	int left = first;
+	int right = last;
+	while (left <= right)
+	{
+		while (array[left] < pivot)
+			left++;
+		while (array[right] > pivot)
+			right--;
+		if (left <= right)
+		{
+			std::swap(array[left], array[right]);
+			left++;
+			right--;
+		}
+		// recursively call the function to sort left half and right half of the array
+		quicksort(array, first, right);
+		quicksort(array, left, last);
+	}
+}
+
+/*
+
+int median(int array[], int first, int last)
+{
+	
+	int left = array[first];
+	int right = array[last];
+	int middle = array[(last - first) / 2 + first];
+	
+	int pivot = left;
+
+	if (left <= middle && middle <= right || right <= middle && middle <= left)
+		pivot = middle;
+	else if (middle <= right && right <= left || left <= right && right <= middle)
+		pivot = right;
+	
+	cout << "Left: " << left << "\n";
+	cout << "Middle: " << middle << "\n";
+	cout << "Right: " << right << "\n";
+	cout << "Mediana: " << pivot << "\n";
+	
+	return pivot;
+}
+
+void quicksort(int array[], int first, int last)
+{
+	if (last - first < 2)
+		return;
+
+	int pivot = median(array, first, last);
+
+	int left = first;
+	int right = last;
+	while (left <= right)
+	{
+		while (array[left] < pivot)
+			left++;
+		while (array[right] > pivot)
+			right--;
+		if (left <= right)
+		{
+			std::swap(array[left], array[right]);
+			left++;
+			right--;
+		}
+		quicksort(array, first, right);
+		quicksort(array, left, last);
+	}
+}
+*/
+void main(void)
+{
+	int array[] = {4, 5, 3, 5, 7, 4, 8, 2, 1, 0, 10, 4 };
+	int n = sizeof(array) / sizeof(array[0]);
+	cout << "Before sorting: ";
+	for (int i = 0; i < n; i++)
+	{
+		cout << array[i] << " ";
+	}
+	
+	quicksort(array, 0, n - 1);
+	cout << "\nAfter sorting: ";
+	for (int i = 0; i < n; i++)
+	{
+		cout << array[i] << " ";
+	}
+
+	cin.get();
+}
